@@ -1,0 +1,31 @@
+{
+  "name": "backend-agridataia",
+  "version": "1.0.0",
+  "description": "backend utiliser pour la mise ne place de Agridataia",
+  "license": "ISC",
+  "author": "Dimitri Bonsou",
+  "type": "commonjs",
+  "main": "server.ts",
+  "scripts": {
+    "test": "npm start"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.1",
+    "@types/nodemailer": "^8.0.0",
+    "prisma": "^7.8.0",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@prisma/client": "^7.8.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "nodemailer": "^8.0.7",
+    "zod": "^4.4.3"
+  }
+}
