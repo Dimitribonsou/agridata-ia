@@ -5,8 +5,21 @@
       <h1 class="text-xl md:text-3xl font-bold text-gray-900 tracking-tight">Tableau de Bord Sanitaire</h1>
     </header>
 
-    <main class="flex flex-col gap-6">
+    <main class="flex flex-col gap-6 px-3">
       <app-metrics-display></app-metrics-display>
+      <div class="card mt-3 flex flex-col gap-3 px-5 items-start shadow-md rounded-lg py-4 bg-white">
+        <div class="flex flex-col gap-1">
+            <h2 class="text-lg font-semibold text-gray-800">Résultats d'analyses laboratoire</h2>
+            <p class="text-gray-600">Affichage de 12 analyses sur 124 au total</p>
+        </div>
+        <div class="w-full flex justify-end">
+            <a href="#" class="text-white bg-blue-600 px-4 py-3 rounded-lg hover:bg-blue-800">Générer et préparer les rapports(0 sélectionné(s))</a>
+        </div>
+        <app-data-table
+         [data]="analyses" 
+         title="Résultats d'analyses laboratoire">
+        </app-data-table>
+      </div>
     </main>
 
   </div>

@@ -10,9 +10,11 @@ export interface MilkMetrics {
 export interface MilkAnalysis {
   id: string;
   producerName: string;
+  producerId: string;
+  exploitation: string;
   email: string;
   sampleDate: string;
-  status: 'PENDING' | 'CRITICAL' | 'NORMAL';
+  status: 'COMFORME' | 'ALERTE' ;
   metrics: MilkMetrics;
 }
 
@@ -24,9 +26,11 @@ export class InfoLaboStore {
     {
       id: '1',
       producerName: 'Élevage du Grand Jean',
+      producerId: 'PROD-001',
+      exploitation: 'Élevage du Grand Jean',
       email: 'jean.valjean@example.com',
       sampleDate: '2026-05-20',
-      status: 'CRITICAL',
+      status: 'ALERTE',
       metrics: {
         fatRate: 38.5,
         proteinRate: 32.1,
@@ -37,9 +41,11 @@ export class InfoLaboStore {
     {
       id: '2',
       producerName: 'Ferme des Plaines',
+      producerId: 'PROD-002',
+      exploitation: 'Ferme des Plaines',
       email: 'contact@fermedesplaines.com',
       sampleDate: '2026-05-21',
-      status: 'NORMAL',
+      status: 'COMFORME',
       metrics: {
         fatRate: 41.2,
         proteinRate: null,
@@ -50,9 +56,11 @@ export class InfoLaboStore {
     {
       id: '3',
       producerName: 'GAEC du Bois Joli',
+      producerId: 'PROD-003',
+      exploitation: 'GAEC du Bois Joli',
       email: 'gaec.boisjoli@example.com',
       sampleDate: '2026-05-22',
-      status: 'PENDING',
+      status: 'COMFORME',
       metrics: {
         fatRate: undefined,
         proteinRate: 34.0,
