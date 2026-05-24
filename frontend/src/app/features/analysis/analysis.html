@@ -1,1 +1,30 @@
-<p>analysis works!</p>
+<div class="w-full h-full p-6">
+  @if (hasSelection()) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
+      <div class="md:col-span-1 border rounded-lg p-4 bg-white shadow">
+        <app-analysis-list 
+          [data]="selectedAnalyses()"
+          (selectionChange)="onAnalysisSelected($event)"
+        ></app-analysis-list>
+      </div>
+      <div class="md:col-span-2 h-full">
+        <app-preview-pane 
+          [analysis]="selectedAnalysis()"
+        ></app-preview-pane>
+      </div>
+    </div>
+  } @else {
+    <div class="flex items-center justify-center h-full">
+      <div class="text-center">
+        <i class="pi pi-inbox text-6xl text-gray-300 mb-4 block"></i>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Aucune sélection</h2>
+        <p class="text-gray-500 mb-6">Retournez au tableau de bord pour sélectionner des analyses</p>
+        <p-button 
+          label="Retour au tableau de bord" 
+          icon="pi pi-arrow-left"
+          (onClick)="onBackToDashboard()"
+        ></p-button>
+      </div>
+    </div>
+  }
+</div>
