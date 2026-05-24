@@ -10,7 +10,5 @@ import { MetricCardComponent } from '../metric-card/metric-card';
   templateUrl: './metrics-display.html'
 })
 export class MetricsDisplay {
-  private store = inject(InfoLaboStore);
-
 
 }
