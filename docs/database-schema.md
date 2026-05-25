@@ -1,22 +1,35 @@
-# Schéma de Base de Données
+Schema de Base de Donnees
 
-Ce document décrit le schéma relationnel PostgreSQL utilisé pour persister les données de la plateforme AgriData-AI. Le schéma est défini à travers Prisma ORM et géré par migrations versionnées.
+Ce document decrit le schema relationnel PostgreSQL utilise pour persister les donnees de la plateforme AgriData-AI. Le schema est defini a travers Prisma ORM et gere par migrations versionees.
 
-## Vue d'Ensemble
+Table des Matieres
 
-La base de données AgriData-AI gère les entités suivantes :
+- [Vue d'Ensemble](#vue-densemble)
+- [Tables PostgreSQL](#tables-postgresql)
+  - [Table milkAnalyses](#table-milkanalyses)
+  - [Table shippingLogs](#table-shippinglogs)
+- [Contraintes d'Integrite](#contraintes-dintegrite)
+- [Operations Courantes](#operations-courantes)
+- [Migrations Prisma](#migrations-prisma)
+- [Donnees d'Exemple](#donnees-dexemple)
+- [Performance et Indexation](#performance-et-indexation)
+- [Strategies de Sauvegarde](#strategies-de-sauvegarde)
 
-1. **Analysis** : Enregistrements d'analyses laitières provenant des laboratoires.
-2. **Producer** : Métadonnées des producteurs laitiers (préservé pour évolution future).
-3. **ShippingLog** : Journal des envois de rapports par courriel.
+# Vue d'Ensemble
 
-## Tables PostgreSQL
+La base de donnees AgriData-AI gere les entites suivantes :
 
-### Table: milkAnalyses
+1. Analysis : Enregistrements d'analyses laitieres provenant des laboratoires.
+2. Producer : Metadonnees des producteurs laitiers (preserv pour evolution future).
+3. ShippingLog : Journal des envois de rapports par courrier electronique.
 
-Stocke les résultats d'analyses laitières pour chaque producteur.
+# Tables PostgreSQL
 
-**Colonnes**
+Table: milkAnalyses
+
+Stocke les resultats d'analyses laitieres pour chaque producteur.
+
+Colonnes
 
 | Nom | Type | Constraints | Description |
 |-----|------|-------------|-------------|

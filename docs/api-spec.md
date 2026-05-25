@@ -1,40 +1,49 @@
-# Spécification des Contrats d'API
+Specification des Contrats d'API
 
-Ce document décrit les points d'accès HTTP disponibles sur le serveur backend Express, les structures de requête acceptées, les codes de réponse et les règles de validation.
+Ce document decrit les points d'acces HTTP disponibles sur le serveur backend Express, les structures de requete acceptees, les codes de reponse et les regles de validation.
 
-## Base de l'API
+Table des Matieres
 
-```
+- [Base de l'API](#base-de-lapi)
+- [Codes de Reponse HTTP](#codes-de-reponse-http)
+- [Authentification](#authentification)
+- [Endpoints](#endpoints)
+  - [Analyses Laitieres](#analyses-laitieres)
+  - [Generation de Rapport IA](#generation-de-rapport-ia)
+  - [Expedition par Courrier Electronique](#expedition-par-courrier-electronique)
+- [Modeles de Donnees](#modeles-de-donnees)
+- [Gestion des Erreurs](#gestion-des-erreurs)
+- [Deploiement et Configuration](#deploiement-et-configuration)
+
+# Base de l'API
+
 Base URL: http://localhost:3000/api
-```
 
-Tous les endpoints retournent du JSON. Les requêtes doivent inclure l'en-tête Content-Type: application/json pour les méthodes POST et PUT.
+Tous les endpoints retournent du JSON. Les requetes doivent inclure l'en-tete Content-Type: application/json pour les methodes POST et PUT.
 
-## Codes de Réponse HTTP
+# Codes de Reponse HTTP
 
-- 200 OK : Requête réussie. Le corps de la réponse contient les données demandées.
-- 201 Created : Ressource créée avec succès. Le corps de la réponse contient la nouvelle ressource.
-- 400 Bad Request : Erreur de validation. La requête contient des données invalides selon les schémas Zod.
-- 404 Not Found : Ressource non trouvée.
-- 500 Internal Server Error : Erreur serveur. Détails disponibles dans le corps de la réponse.
+200 OK : Requete reussie. Le corps de la reponse contient les donnees demandees.
+201 Created : Ressource creee avec succes. Le corps de la reponse contient la nouvelle ressource.
+400 Bad Request : Erreur de validation. La requete contient des donnees invalides selon les schemas Zod.
+404 Not Found : Ressource non trouvee.
+500 Internal Server Error : Erreur serveur. Details disponibles dans le corps de la reponse.
 
-## Authentification
+# Authentification
 
-Les endpoints ne nécessitent pas d'authentification dans la version actuelle. La sécurité sera ajoutée dans les versions futures.
+Les endpoints ne necessitent pas d'authentification dans la version actuelle. La securite sera ajoutee dans les versions futures.
 
-## Endpoints
+# Endpoints
 
-### Analyses Laitières
+Analyses Laitieres
 
-#### Récupérer toutes les analyses
+Recuperer toutes les analyses
 
-```
-GET /api/analyses
-```
+- GET /api/analyses
 
-Répond avec un tableau d'analyses laitières pour tous les producteurs enregistrés.
+Repond avec un tableau d'analyses laitieres pour tous les producteurs enregistres.
 
-**Réponse (200 OK)**
+- Reponse (200 OK)
 
 ```json
 [
@@ -56,21 +65,19 @@ Répond avec un tableau d'analyses laitières pour tous les producteurs enregist
 ]
 ```
 
-#### Récupérer une analyse par ID
+Recuperer une analyse par ID
 
-```
-GET /api/analyses/:id
-```
+- GET /api/analyses/:id
 
-**Paramètres de Route**
+Parametres de Route
 
-- id (string) : Identifiant unique de l'analyse.
+id (string) : Identifiant unique de l'analyse.
 
-**Réponse (200 OK)**
+Reponse (200 OK)
 
 Retourne l'objet MilkAnalysis.
 
-**Réponse (404 Not Found)**
+* Reponse (404 Not Found)
 
 ```json
 {
@@ -79,13 +86,11 @@ Retourne l'objet MilkAnalysis.
 }
 ```
 
-#### Créer une nouvelle analyse
+Creer une nouvelle analyse
 
-```
-POST /api/analyses
-```
+- POST /api/analyses
 
-**Corps de la Requête**
+Corps de la Requete
 
 ```json
 {
@@ -104,24 +109,24 @@ POST /api/analyses
 }
 ```
 
-**Schéma de Validation (Zod)**
+# Schema de Validation (Zod)
 
-- producerName : string, longueur minimale 3, maximale 100
-- producerId : string, format PROD-XXX (regex validée)
-- exploitation : string, longueur minimale 3, maximale 100
-- email : string, email valide
-- sampleDate : string, format ISO 8601 (YYYY-MM-DD)
-- status : enum (COMFORME | ALERTE)
-- metrics.fatRate : number optionnel, entre 0 et 10
-- metrics.proteinRate : number optionnel, entre 0 et 5
-- metrics.somaticCells : number optionnel, entre 0 et 1000000
-- metrics.cryoscopy : number optionnel, entre -1 et 0
+producerName : string, longueur minimale 3, maximale 100    
+producerId : string, format PROD-XXX (regex validee)    
+exploitation : string, longueur minimale 3, maximale 100      
+email : string, email valide    
+sampleDate : string, format ISO 8601 (YYYY-MM-DD)      
+status : enum (COMFORME | ALERTE)  
+metrics.fatRate : number optionnel, entre 0 et 10      
+metrics.proteinRate : number optionnel, entre 0 et 5      
+metrics.somaticCells : number optionnel, entre 0 et 1000000      
+metrics.cryoscopy : number optionnel, entre -1 et 0      
 
-**Réponse (201 Created)**
+- Reponse (201 Created)
 
-Retourne l'objet MilkAnalysis créé avec un nouvel id généré.
+Retourne l'objet MilkAnalysis cree avec un nouvel id genere.
 
-**Réponse (400 Bad Request)**
+- Reponse (400 Bad Request)
 
 ```json
 {
@@ -135,19 +140,17 @@ Retourne l'objet MilkAnalysis créé avec un nouvel id généré.
 }
 ```
 
-### Génération de Rapport IA
+# Generation de Rapport IA
 
-#### Générer un rapport d'analyse via Gemini
+Generer un rapport d'analyse via Gemini
 
-```
 POST /api/analyses/:id/generate-report
-```
 
-**Paramètres de Route**
+Parametres de Route
 
-- id (string) : Identifiant de l'analyse.
+id (string) : Identifiant de l'analyse.
 
-**Corps de la Requête**
+Corps de la Requete
 
 ```json
 {
@@ -155,44 +158,43 @@ POST /api/analyses/:id/generate-report
 }
 ```
 
-**Paramètres**
+# Parametres
 
-- customPrompt (string, optionnel) : Instructions supplémentaires pour l'API Gemini. Si omis, un prompt par défaut est utilisé.
+customPrompt (string, optionnel) : Instructions supplementaires pour l'API Gemini. Si omis, un prompt par defaut est utilise.
 
-**Processus**
+Processus
 
-1. Récupère l'analyse laitière par ID depuis la base de données.
-2. Construit un prompt structuré incluant les métriques laitières et le contexte d'alerte.
+1. Recupere l'analyse laitiere par ID depuis la base de donnees.
+2. Construit un prompt structure incluant les metriques laitieres et le contexte d'alerte.
 3. Appelle l'API Gemini 2.4.0 avec le prompt.
-4. Retourne le rapport généré au format texte.
+4. Retourne le rapport genere au format texte.
 
-**Réponse (200 OK)**
+Reponse (200 OK)
 
 ```json
 {
-  "report": "RAPPORT D'ANALYSE LAITIÈRE\n\nProducteur: Élevage du Grand Jean\nStatus: ALERTE\n\nDiagnostic: La hausse des cellules somatiques (245000/mL) indique une probable mammite subclinique. Recommandations immédiates: vérifier l'hygiène de traite, renforcer l'observation clinique du cheptel, envisager une antibiothérapie ciblée après culture du lait.",
+  "report": "RAPPORT D'ANALYSE LAITIÈRE Producteur: Élevage du Grand Jean  Status:   ALERTE  
+  Diagnostic: La hausse des cellules somatiques (245000/mL) indique une probable mammite subclinique. Recommandations immédiates: vérifier l'hygiène de traite, renforcer l'observation clinique du cheptel, envisager une antibiothérapie ciblée après culture du lait.",
   "analysisId": "1",
   "generatedAt": "2026-05-25T14:30:00Z"
 }
 ```
 
-**Réponse (404 Not Found)**
+Reponse (404 Not Found)
 
-L'analyse demandée n'existe pas.
+L'analyse demandee n'existe pas.
 
-**Réponse (503 Service Unavailable)**
+Reponse (503 Service Unavailable)
 
 L'API Gemini est temporairement indisponible.
 
-### Expédition par Courrier Électronique
+Expedition par Courrier Electronique
 
-#### Envoyer un rapport par email
+Envoyer un rapport par email
 
-```
-POST /api/shipping/send-report
-```
+- POST /api/shipping/send-report
 
-**Corps de la Requête**
+Corps de la Requete
 
 ```json
 {
@@ -203,27 +205,27 @@ POST /api/shipping/send-report
 }
 ```
 
-**Paramètres**
+Parametres
 
-- analysisId (string) : Identifiant de l'analyse associée.
-- recipientEmail (string) : Adresse email du destinataire (validée par schéma email).
-- reportContent (string) : Contenu du rapport à envoyer.
-- subject (string) : Objet du courrier électronique.
+analysisId (string) : Identifiant de l'analyse associee.    
+recipientEmail (string) : Adresse email du destinataire (validee par schema email).    
+reportContent (string) : Contenu du rapport a envoyer.    
+subject (string) : Objet du courrier electronique.  
 
-**Schéma de Validation**
+Schema de Validation
 
-- recipientEmail : format email valide
-- reportContent : longueur minimale 10 caractères
-- subject : longueur minimale 5 caractères
+recipientEmail : format email valide  
+reportContent : longueur minimale 10 caracteres  
+subject : longueur minimale 5 caracteres
 
-**Processus**
+Processus
 
-1. Valide les paramètres selon les schémas Zod.
+1. Valide les parametres selon les schemas Zod.
 2. Configure le client Nodemailer avec les identifiants SMTP.
 3. Envoie le rapport au format texte ou HTML.
-4. Enregistre un log d'expédition en base de données (timestamp, adresse destinataire, statut).
+4. Enregistre un log d'expedition en base de donnees (timestamp, adresse destinataire, statut).
 
-**Réponse (200 OK)**
+- Reponse (200 OK)
 
 ```json
 {
@@ -234,11 +236,11 @@ POST /api/shipping/send-report
 }
 ```
 
-**Réponse (400 Bad Request)**
+- Reponse (400 Bad Request)
 
-Validation échouée ou email invalide.
+Validation echouee ou email invalide.
 
-**Réponse (500 Internal Server Error)**
+- Reponse (500 Internal Server Error)
 
 ```json
 {
@@ -247,59 +249,51 @@ Validation échouée ou email invalide.
 }
 ```
 
-## Modèles de Données
+# Modeles de Donnees
 
-### MilkAnalysis
+MilkAnalysis
 
-```typescript
-interface MilkAnalysis {
-  id: string;
-  producerName: string;           // Nom de l'éleveur
-  producerId: string;              // Code producteur unique
-  exploitation: string;             // Nom de l'exploitation
-  email: string;                   // Email de contact
-  sampleDate: string;              // Date de prélèvement (ISO 8601)
-  status: 'COMFORME' | 'ALERTE';   // Conformité aux normes
-  metrics: MilkMetrics;            // Résultats analytiques
-  createdAt?: string;              // Timestamp de création
-  updatedAt?: string;              // Timestamp de dernière modification
+interface MilkAnalysis {    
+  id: string;    
+  producerName: string;               // Nom de l'eleveur  
+  producerId: string;                  // Code producteur unique
+  exploitation: string;                 // Nom de l'exploitation
+  email: string;                       // Email de contact    
+  sampleDate: string;                 // Date de prelevement (ISO 8601)  
+  status: 'COMFORME' | 'ALERTE';     // Conformite aux normes  
+  metrics: MilkMetrics;              // Resultats analytiques
+  createdAt?: string;                // Timestamp de creation
+  updatedAt?: string;                // Timestamp de derniere modification  
 }
-```
 
-### MilkMetrics
+MilkMetrics
 
-```typescript
-interface MilkMetrics {
-  fatRate?: number | null;         // Taux de matière grasse (%) 0-10
-  proteinRate?: number | null;     // Taux de protéine (%) 0-5
-  somaticCells?: number | null;    // Cellules somatiques (/mL) 0-1000000
-  cryoscopy?: number | null;       // Cryoscopie (°C) -1 à 0
+interface MilkMetrics {  
+  fatRate?: number | null;             // Taux de matiere grasse (%) 0-10  
+  proteinRate?: number | null;         // Taux de proteine (%) 0-5     
+  somaticCells?: number |   null;          // Cellules somatiques (/mL) 0-1000000   
+  cryoscopy?: number | null;            // Cryoscopie (degres C) -1 a 0   
 }
-```
 
-## Gestion des Erreurs
+# Gestion des Erreurs
 
-Tous les endpoints retournent une structure d'erreur cohérente en cas d'exception :
+Tous les endpoints retournent une structure d'erreur coherente en cas d'exception :
 
-```json
-{
-  "error": "Description lisible de l'erreur",
-  "code": "ERROR_CODE",
-  "timestamp": "2026-05-25T14:30:00Z",
-  "path": "/api/analyses/999"
+{  
+  "error": "Description lisible de l'erreur",  
+  "code": "ERROR_CODE",   
+  "timestamp": "2026-05-25T14:30:00Z",  
+  "path": "/api/analyses/999"  
 }
-```
 
-## Déploiement et Configuration
+# Deploiement et Configuration
 
-La configuration de l'API (port, base de données, clés API) est gérée via variables d'environnement définies dans un fichier `.env.local` :
+La configuration de l'API (port, base de donnees, cles API) est geree via variables d'environnement definies dans un fichier .env.local :
 
-```
 DATABASE_URL=postgresql://user:password@localhost:5432/agridata
-GEMINI_API_KEY=sk-...
-SMTP_HOST=smtp.gmail.com
+GEMINI_API_KEY=sk-...  
+SMTP_HOST=smtp.gmail.com  
 SMTP_PORT=587
 SMTP_USER=noreply@agridata.com
-SMTP_PASSWORD=...
+SMTP_PASSWORD=...   
 NODE_ENV=production
-```
