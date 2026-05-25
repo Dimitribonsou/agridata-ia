@@ -3,15 +3,29 @@
         <i class="pi pi-database text-3xl text-blue-800"></i>
         <div class="flex flex-col gap-0"> 
           <span class="text-2xl font-bold text-blue-800 tracking-wide">AgriData-AI</span>
-          <p class="text-sm text-gray-500">Laboratoire Départemental d'Analyses - Jura (LDA39)</p>
+          <p class="text-sm text-gray-500 hidden md:block">Laboratoire Départemental d'Analyses - Jura (LDA39)</p>
         </div>
       </div>
       <div class="bg-green-400/10 px-3 py-2 rounded-full text-xs font-semibold flex items-center gap-2">
         <i class="pi pi-check-circle text-green-400"></i>
-        <span class="text-green-400">Statuts : Connecté au simulateur Infolabo</span>
+        <span class="text-green-400 hidden md:block">Statuts : Connecté au simulateur Infolabo</span>
       </div>
     </header>
-    <main class="flex justify-center m-0 p-4">
+    <main class="flex flex-col justify-center items-start py-3 px-8 gap-4">
+      <div class="w-fit flex justify-center items-center gap-8 shadow-md rounded-lg py-3 px-8 mt-2 bg-white">
+           <a routerLink="dashboard" routerLinkActive="bg-blue-800 text-white" class="flex items-center px-4 py-3 hover:bg-blue-800 hover:text-white rounded-lg transition-colors duration-300">
+             <i class="pi pi-database"> </i>
+              <span class="ml-2 hidden md:block">Tableau de bord</span>
+           </a>
+           <a routerLink="analysis" routerLinkActive="bg-blue-800 text-white" class="flex items-center px-4 py-3 hover:bg-blue-800 hover:text-white rounded-lg transition-colors duration-300">
+             <i class="pi pi-sparkles"> </i>
+              <span class="ml-2 hidden md:block">Analyse IA & Rapport</span>
+           </a>
+           <a routerLink="shipping" routerLinkActive="bg-blue-800 text-white" class="flex items-center px-4 py-3 hover:bg-blue-800 hover:text-white rounded-lg transition-colors duration-300">
+             <i class="pi pi-envelope"> </i>
+              <span class="ml-2 hidden md:block">Expédition par mail</span>
+           </a>
+      </div>
       <div class="w-full xl:w-10/12">
         <router-outlet></router-outlet>
       </div>
