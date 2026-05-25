@@ -2,7 +2,20 @@ Schema de Base de Donnees
 
 Ce document decrit le schema relationnel PostgreSQL utilise pour persister les donnees de la plateforme AgriData-AI. Le schema est defini a travers Prisma ORM et gere par migrations versionees.
 
-Vue d'Ensemble
+Table des Matieres
+
+- [Vue d'Ensemble](#vue-densemble)
+- [Tables PostgreSQL](#tables-postgresql)
+  - [Table milkAnalyses](#table-milkanalyses)
+  - [Table shippingLogs](#table-shippinglogs)
+- [Contraintes d'Integrite](#contraintes-dintegrite)
+- [Operations Courantes](#operations-courantes)
+- [Migrations Prisma](#migrations-prisma)
+- [Donnees d'Exemple](#donnees-dexemple)
+- [Performance et Indexation](#performance-et-indexation)
+- [Strategies de Sauvegarde](#strategies-de-sauvegarde)
+
+# Vue d'Ensemble
 
 La base de donnees AgriData-AI gere les entites suivantes :
 
@@ -10,7 +23,7 @@ La base de donnees AgriData-AI gere les entites suivantes :
 2. Producer : Metadonnees des producteurs laitiers (preserv pour evolution future).
 3. ShippingLog : Journal des envois de rapports par courrier electronique.
 
-Tables PostgreSQL
+# Tables PostgreSQL
 
 Table: milkAnalyses
 

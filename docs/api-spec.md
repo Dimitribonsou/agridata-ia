@@ -2,13 +2,26 @@ Specification des Contrats d'API
 
 Ce document decrit les points d'acces HTTP disponibles sur le serveur backend Express, les structures de requete acceptees, les codes de reponse et les regles de validation.
 
-Base de l'API
+Table des Matieres
+
+- [Base de l'API](#base-de-lapi)
+- [Codes de Reponse HTTP](#codes-de-reponse-http)
+- [Authentification](#authentification)
+- [Endpoints](#endpoints)
+  - [Analyses Laitieres](#analyses-laitieres)
+  - [Generation de Rapport IA](#generation-de-rapport-ia)
+  - [Expedition par Courrier Electronique](#expedition-par-courrier-electronique)
+- [Modeles de Donnees](#modeles-de-donnees)
+- [Gestion des Erreurs](#gestion-des-erreurs)
+- [Deploiement et Configuration](#deploiement-et-configuration)
+
+# Base de l'API
 
 Base URL: http://localhost:3000/api
 
 Tous les endpoints retournent du JSON. Les requetes doivent inclure l'en-tete Content-Type: application/json pour les methodes POST et PUT.
 
-Codes de Reponse HTTP
+# Codes de Reponse HTTP
 
 200 OK : Requete reussie. Le corps de la reponse contient les donnees demandees.
 201 Created : Ressource creee avec succes. Le corps de la reponse contient la nouvelle ressource.
@@ -16,21 +29,21 @@ Codes de Reponse HTTP
 404 Not Found : Ressource non trouvee.
 500 Internal Server Error : Erreur serveur. Details disponibles dans le corps de la reponse.
 
-Authentification
+# Authentification
 
 Les endpoints ne necessitent pas d'authentification dans la version actuelle. La securite sera ajoutee dans les versions futures.
 
-Endpoints
+# Endpoints
 
 Analyses Laitieres
 
 Recuperer toutes les analyses
 
-GET /api/analyses
+- GET /api/analyses
 
 Repond avec un tableau d'analyses laitieres pour tous les producteurs enregistres.
 
-Reponse (200 OK)
+- Reponse (200 OK)
 
 ```json
 [
@@ -54,7 +67,7 @@ Reponse (200 OK)
 
 Recuperer une analyse par ID
 
-GET /api/analyses/:id
+- GET /api/analyses/:id
 
 Parametres de Route
 
@@ -64,7 +77,7 @@ Reponse (200 OK)
 
 Retourne l'objet MilkAnalysis.
 
-Reponse (404 Not Found)
+* Reponse (404 Not Found)
 
 ```json
 {
@@ -75,7 +88,7 @@ Reponse (404 Not Found)
 
 Creer une nouvelle analyse
 
-POST /api/analyses
+- POST /api/analyses
 
 Corps de la Requete
 
@@ -96,24 +109,24 @@ Corps de la Requete
 }
 ```
 
-Schema de Validation (Zod)
+# Schema de Validation (Zod)
 
-producerName : string, longueur minimale 3, maximale 100
-producerId : string, format PROD-XXX (regex validee)
-exploitation : string, longueur minimale 3, maximale 100  
-email : string, email valide
-sampleDate : string, format ISO 8601 (YYYY-MM-DD)  
-status : enum (COMFORME | ALERTE)
-metrics.fatRate : number optionnel, entre 0 et 10  
-metrics.proteinRate : number optionnel, entre 0 et 5  
-metrics.somaticCells : number optionnel, entre 0 et 1000000  
-metrics.cryoscopy : number optionnel, entre -1 et 0  
+producerName : string, longueur minimale 3, maximale 100    
+producerId : string, format PROD-XXX (regex validee)    
+exploitation : string, longueur minimale 3, maximale 100      
+email : string, email valide    
+sampleDate : string, format ISO 8601 (YYYY-MM-DD)      
+status : enum (COMFORME | ALERTE)  
+metrics.fatRate : number optionnel, entre 0 et 10      
+metrics.proteinRate : number optionnel, entre 0 et 5      
+metrics.somaticCells : number optionnel, entre 0 et 1000000      
+metrics.cryoscopy : number optionnel, entre -1 et 0      
 
-Reponse (201 Created)
+- Reponse (201 Created)
 
 Retourne l'objet MilkAnalysis cree avec un nouvel id genere.
 
-Reponse (400 Bad Request)
+- Reponse (400 Bad Request)
 
 ```json
 {
@@ -127,7 +140,7 @@ Reponse (400 Bad Request)
 }
 ```
 
-Generation de Rapport IA
+# Generation de Rapport IA
 
 Generer un rapport d'analyse via Gemini
 
@@ -145,7 +158,7 @@ Corps de la Requete
 }
 ```
 
-Parametres
+# Parametres
 
 customPrompt (string, optionnel) : Instructions supplementaires pour l'API Gemini. Si omis, un prompt par defaut est utilise.
 
@@ -160,7 +173,8 @@ Reponse (200 OK)
 
 ```json
 {
-  "report": "RAPPORT D'ANALYSE LAITIÈRE\n\nProducteur: Élevage du Grand Jean\nStatus:   ALERTE\n\nDiagnostic: La hausse des cellules somatiques (245000/mL) indique une probable mammite subclinique. Recommandations immédiates: vérifier l'hygiène de traite, renforcer l'observation clinique du cheptel, envisager une antibiothérapie ciblée après culture du lait.",
+  "report": "RAPPORT D'ANALYSE LAITIÈRE Producteur: Élevage du Grand Jean  Status:   ALERTE  
+  Diagnostic: La hausse des cellules somatiques (245000/mL) indique une probable mammite subclinique. Recommandations immédiates: vérifier l'hygiène de traite, renforcer l'observation clinique du cheptel, envisager une antibiothérapie ciblée après culture du lait.",
   "analysisId": "1",
   "generatedAt": "2026-05-25T14:30:00Z"
 }
@@ -178,7 +192,7 @@ Expedition par Courrier Electronique
 
 Envoyer un rapport par email
 
-POST /api/shipping/send-report
+- POST /api/shipping/send-report
 
 Corps de la Requete
 
@@ -193,10 +207,10 @@ Corps de la Requete
 
 Parametres
 
-analysisId (string) : Identifiant de l'analyse associee.  
-recipientEmail (string) : Adresse email du destinataire (validee par schema email).   
-reportContent (string) : Contenu du rapport a envoyer.  
-subject (string) : Objet du courrier electronique.
+analysisId (string) : Identifiant de l'analyse associee.    
+recipientEmail (string) : Adresse email du destinataire (validee par schema email).    
+reportContent (string) : Contenu du rapport a envoyer.    
+subject (string) : Objet du courrier electronique.  
 
 Schema de Validation
 
@@ -211,7 +225,7 @@ Processus
 3. Envoie le rapport au format texte ou HTML.
 4. Enregistre un log d'expedition en base de donnees (timestamp, adresse destinataire, statut).
 
-Reponse (200 OK)
+- Reponse (200 OK)
 
 ```json
 {
@@ -222,11 +236,11 @@ Reponse (200 OK)
 }
 ```
 
-Reponse (400 Bad Request)
+- Reponse (400 Bad Request)
 
 Validation echouee ou email invalide.
 
-Reponse (500 Internal Server Error)
+- Reponse (500 Internal Server Error)
 
 ```json
 {
@@ -235,33 +249,33 @@ Reponse (500 Internal Server Error)
 }
 ```
 
-Modeles de Donnees
+# Modeles de Donnees
 
 MilkAnalysis
 
-interface MilkAnalysis {
-  id: string;  
-  producerName: string;             // Nom de l'eleveur  
-  producerId: string;                // Code producteur unique
-  exploitation: string;               // Nom de l'exploitation
-  email: string;                     // Email de contact    
-  sampleDate: string;                // Date de prelevement (ISO 8601)  
-  status: 'COMFORME' | 'ALERTE';   // Conformite aux normes
-  metrics: MilkMetrics;            // Resultats analytiques
-  createdAt?: string;              // Timestamp de creation
-  updatedAt?: string;              // Timestamp de derniere modification
+interface MilkAnalysis {    
+  id: string;    
+  producerName: string;               // Nom de l'eleveur  
+  producerId: string;                  // Code producteur unique
+  exploitation: string;                 // Nom de l'exploitation
+  email: string;                       // Email de contact    
+  sampleDate: string;                 // Date de prelevement (ISO 8601)  
+  status: 'COMFORME' | 'ALERTE';     // Conformite aux normes  
+  metrics: MilkMetrics;              // Resultats analytiques
+  createdAt?: string;                // Timestamp de creation
+  updatedAt?: string;                // Timestamp de derniere modification  
 }
 
 MilkMetrics
 
 interface MilkMetrics {  
-  fatRate?: number | null;           // Taux de matiere grasse (%) 0-10  
-  proteinRate?: number | null;       // Taux de proteine (%) 0-5     
-  somaticCells?: number | null;          // Cellules somatiques (/mL) 0-1000000   
-  cryoscopy?: number | null;          // Cryoscopie (degres C) -1 a 0   
+  fatRate?: number | null;             // Taux de matiere grasse (%) 0-10  
+  proteinRate?: number | null;         // Taux de proteine (%) 0-5     
+  somaticCells?: number |   null;          // Cellules somatiques (/mL) 0-1000000   
+  cryoscopy?: number | null;            // Cryoscopie (degres C) -1 a 0   
 }
 
-Gestion des Erreurs
+# Gestion des Erreurs
 
 Tous les endpoints retournent une structure d'erreur coherente en cas d'exception :
 
@@ -272,7 +286,7 @@ Tous les endpoints retournent une structure d'erreur coherente en cas d'exceptio
   "path": "/api/analyses/999"  
 }
 
-Deploiement et Configuration
+# Deploiement et Configuration
 
 La configuration de l'API (port, base de donnees, cles API) est geree via variables d'environnement definies dans un fichier .env.local :
 
