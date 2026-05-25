@@ -1,5 +1,4 @@
 
-```markdown
 # AgriData-AI : Plateforme d'Analyse Laitière Décisionnelle
 
 AgriData-AI est un projet de plateforme web d'entreprise conçu pour automatiser la surveillance sanitaire et l'analyse des données de production laitière. Le système centralise les métriques physico-chimiques provenant des laboratoires d'analyse, exploite l'intelligence artificielle via Google Gemini pour générer des diagnostics agronomiques, et orchestre le routage automatisé des rapports d'alerte par courrier électronique.
@@ -8,11 +7,22 @@ Ce projet a été inspiré par les missions décrites dans l'offre de formation 
 
 Etat du projet : En cours de développement. Les données actuelles sont simulées via un objet JSON dans le service InfoLaboStore. L'architecture est conçue pour être facilement connectée à n'importe quelle API backend sans modifications majeures du code métier.
 
+## Table des Matières
+
+- [Prototype et Conception](#prototype-et-conception)
+- [Objectifs Métier](#objectifs-métier)
+- [Architecture Technique](#architecture-technique)
+- [Données Simulées](#données-simulées)
+- [Organisation du Projet](#organisation-du-projet)
+- [Principes de Conception](#principes-de-conception)
+- [Documentation Technique](#documentation-technique-approfondie)
+- [Installation et Démarrage](#installation-et-démarrage)
+
 ## Prototype et Conception
 
 Consultez le prototype interactif Figma pour visualiser le design et les flux utilisateur prévus de l'application :
 
-https://www.figma.com/make/UvWS6oyXfrkDj3C2ASyn2V/AgriData-IA?t=DVcJSxYDprMXc6yi-20&fullscreen=1
+[Cliquez sur pour consulter le prototype](https://www.figma.com/make/UvWS6oyXfrkDj3C2ASyn2V/AgriData-IA?t=DVcJSxYDprMXc6yi-20&fullscreen=1)
 
 Le prototype couvre les éléments suivants :
 - Disposition générale et navigation entre les trois pages (Dashboard, Analysis, Shipping)
@@ -62,9 +72,9 @@ Actuellement, les données proviennent d'un objet JSON contenu dans le service I
 Pour connecter le projet à une API backend réelle, il suffit de modifier le service InfoLaboStore pour effectuer des appels HTTP (via HttpClient) vers les endpoints décrits dans la documentation API. Aucune modification majeure du code métier ou des composants n'est nécessaire grâce à l'architecture réactive basée sur les Signals d'Angular.
 
 ## Organisation du Projet
-
+```
 agridata-ai/
-├── docs/
+├── docs/  
 │   ├── api-spec.md                # Specification des contrats d'API HTTP
 │   └── database-schema.md          # Schema relationnel et modeles de donnees
 ├── frontend/                       # Application web Angular 21
@@ -79,7 +89,7 @@ agridata-ai/
     │   ├── core/                  # Middlewares, schemas Zod, modeles
     │   └── features/              # Routes metier (Analysis, Shipping)
     └── package.json
-
+```
 ## Principes de Conception
 
 Typage Statique Strict
@@ -100,8 +110,9 @@ Le frontend organise les composants en slices verticales par domaine fonctionnel
 
 Consultez les documents detailles pour les specifications completes :
 
-api-spec.md : Contrats HTTP, payloads de requete/reponse, codes d'erreur.
-database-schema.md : Schema relationnel PostgreSQL, modeles Prisma, contraintes d'integrite.
+- [Index de Documentation](docs/INDEX.md) : Point d'acces central pour toute la documentation technique
+- [Specification des Contrats d'API](docs/api-spec.md) : Contrats HTTP, payloads de requete/reponse, codes d'erreur
+- [Schema de Base de Donnees](docs/database-schema.md) : Schema relationnel PostgreSQL, modeles Prisma, contraintes d'integrite
 
 ## Installation et Demarrage
 
@@ -120,7 +131,3 @@ npm run dev        # Demmarre le serveur Express sur http://localhost:3000
 ## Specifications Detaillees
 
 Pour les details des modeles de donnees, des schemas de validation et des contrats d'API, consultez le dossier docs.
-
-```
-
-```
