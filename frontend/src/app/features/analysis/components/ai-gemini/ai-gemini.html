@@ -1,35 +1,39 @@
-<div class="h-full flex flex-col gap-4 px-4 py-3">
-  @if (analysis(); as currentAnalysis) {
-    <div>
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">Analyse IA & Rapport</h2>
-      <p class="text-sm text-gray-600">{{ currentAnalysis.producerName }}</p>
-    </div>
-  } @else {
-    <div class="text-center text-gray-400 py-4">
-      <p>Aucune analyse sélectionnée</p>
-    </div>
-  }
+<div class="h-full flex flex-col bg-white overflow-hidden">
+  <!-- Header -->
+  <div class="border-b border-gray-200 px-6 py-4 bg-white">
+    <h2 class="text-lg font-bold text-gray-900">Generation Rapport IA</h2>
+    <p class="text-sm text-gray-600 mt-1">Analyse intelligente et recommandations</p>
+  </div>
 
-  <p-button
-    label="Générer l'analyse IA"
-    icon="pi pi-sparkles"
-    (onClick)="onGenerateAnalysis()"
-    [loading]="isLoading()"
-    severity="info"
-    class="w-full"
-  ></p-button>
+  <!-- Content -->
+  <div class="flex-1 flex flex-col overflow-hidden px-6 py-4">
+    @if (!analysis(); as currentAnalysis) {
+      <!-- Buttons Section -->
+      <div class="flex gap-2 mb-4">
+        <p-button
+          label="Generer l'analyse IA"
+          icon="pi pi-sparkles"
+          (onClick)="onGenerateAnalysis()"
+          [loading]="isLoading()"
+          severity="info"
+          size="small"
+        ></p-button>
+      </div>
 
-  <p-divider></p-divider>
-
-  <div class="flex-1 flex flex-col  bg-white rounded-lg shadow">
-    <label class="text-sm font-semibold text-gray-700 mb-2">Rapport Éditable</label>
-    <textarea
-      pTextarea 
-      [(ngModel)]="reportContent"
-      [rows]="15"
-      class="flex-1 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-ld-blue"
-      placeholder="Contenu du rapport..."
-    ></textarea>
-
+      <!-- Textarea Section -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <label class="text-sm font-semibold text-gray-700 mb-2">Contenu du Rapport</label>
+        <textarea
+          pTextarea 
+          [(ngModel)]="reportContent"
+          class="flex-1 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+          placeholder="Le rapport IA s'affichera ici. Cliquez sur 'Generer l'analyse IA' pour commencer."
+        ></textarea>
+      </div>
+    } @else {
+      <div class="flex items-center justify-center h-full text-gray-400">
+        <p class="text-center">Aucune analyse selectionnee pour generer un rapport</p>
+      </div>
+    }
   </div>
 </div>
