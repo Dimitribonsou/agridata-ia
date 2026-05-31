@@ -5,9 +5,12 @@
   "license": "ISC",
   "author": "Dimitri Bonsou",
   "type": "module",
-  "main": "server.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "npm start"
+    "test": "vitest",
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
@@ -28,6 +31,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.1.0",
     "nodemailer": "^8.0.7",
+    "nodemon": "^3.1.14",
     "pg": "^8.21.0",
     "zod": "^4.4.3"
   }
